@@ -1,0 +1,59 @@
+<div class="container">
+  <h2>🏏 Player Management</h2>
+
+  <div class="form-section">
+    <h3>{{ editMode ? 'Edit Player' : 'Add New Player' }}</h3>
+
+    <form (ngSubmit)="editMode ? updatePlayer() : addPlayer()">
+      <label>Name:</label>
+      <input [(ngModel)]="newPlayer.name" name="name" required />
+
+      <label>Age:</label>
+      <input [(ngModel)]="newPlayer.age" name="age" type="number" required />
+
+      <label>Role:</label>
+      <input [(ngModel)]="newPlayer.role" name="role" required />
+
+      <label>Team:</label>
+      <input [(ngModel)]="newPlayer.team" name="team" required />
+
+      <button type="submit">{{ editMode ? 'Update' : 'Add' }}</button>
+      <button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
+    </form>
+  </div>
+
+  <p class="message" *ngIf="message">{{ message }}</p>
+
+  <div class="list-section">
+    <h3>All Players</h3>
+    <table *ngIf="players.length > 0; else noData">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Role</th>
+          <th>Team</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of players">
+          <td>{{ p.playerId }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.role }}</td>
+          <td>{{ p.team }}</td>
+          <td>
+            <button (click)="editPlayer(p)">Edit</button>
+            <button (click)="deletePlayer(p.playerId!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noData>
+      <p>No players available.</p>
+    </ng-template>
+  </div>
+</div>
