@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Player } from '../models/player.model';
-import { ApiResponse } from '../models/api-response.model'; // wrapper interface
+import { ApiResponse } from '../models/api-response.model'; 
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
@@ -13,7 +13,7 @@ export class PlayerService {
 
   getAll(): Observable<Player[]> {
     return this.http.get<ApiResponse<Player[]>>(this.apiUrl)
-      .pipe(map(response => response.data)); // unwrap Data
+      .pipe(map(response => response.data)); 
   }
 
   create(player: Player): Observable<Player> {

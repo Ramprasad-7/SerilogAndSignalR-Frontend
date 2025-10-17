@@ -39,7 +39,7 @@ async ngOnInit(): Promise<void> {
     created: (p) => {
       this.ngZone.run(() => {
         this.players.push(p);
-        this.cd.detectChanges(); // ensure UI updates immediately
+        this.cd.detectChanges(); 
       });
     },
     updated: (p) => {
@@ -49,17 +49,17 @@ async ngOnInit(): Promise<void> {
       });
     },
    
-      deleted: (id) => {
-      this.players = this.players.filter(x => x.playerId !== id);
-     this.cd.detectChanges();
-   }
-    
+
+  deleted: (id) => {
+  this.ngZone.run(() => {         
+    this.players = this.players.filter(x => x.playerId !== id);
+    this.cd.detectChanges();     
   });
-  //this.loadPlayers();
+} });
+
 }
 
-
-  loadPlayers(): void {
+loadPlayers(): void {
     this.loading = true;
     this.playerService.getAll().subscribe({
       next: (res) => {
@@ -83,7 +83,6 @@ async ngOnInit(): Promise<void> {
       next: () => {
         this.message = '✅ Player added successfully!';
         this.newPlayer = { name: '', age: 0, role: '', team: '' };
-        // no loadPlayers(), SignalR will handle UI
         this.loadPlayers();
       },
       error: () => (this.message = '❌ Failed to add player.')
@@ -103,7 +102,6 @@ async ngOnInit(): Promise<void> {
       next: () => {
         this.message = '✅ Player updated successfully!';
         this.cancelEdit();
-        // no loadPlayers(), SignalR will update UI
        this.loadPlayers();
       },
       error: () => (this.message = '❌ Failed to update player.')
